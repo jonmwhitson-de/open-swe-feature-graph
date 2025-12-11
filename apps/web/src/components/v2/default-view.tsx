@@ -93,6 +93,8 @@ const THREE_STAGE_FLOW = [
   },
 ];
 
+type TaskMode = "develop" | "design";
+
 interface DefaultViewProps {
   threads: Thread<ManagerGraphState>[];
   threadsLoading: boolean;
@@ -101,6 +103,7 @@ interface DefaultViewProps {
 export function DefaultView({ threads, threadsLoading }: DefaultViewProps) {
   const router = useRouter();
   const [quickActionPrompt, setQuickActionPrompt] = useState("");
+  const [taskMode, setTaskMode] = useState<TaskMode>("develop");
   const apiUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL ?? "";
   const [draftToLoad, setDraftToLoad] = useState("");
   const assistantId: string | undefined = MANAGER_GRAPH_ID;
@@ -221,6 +224,23 @@ export function DefaultView({ threads, threadsLoading }: DefaultViewProps) {
                 onRemove={removeBlock}
               />
               <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-muted-foreground text-xs">Mode</span>
+                  <Button
+                    variant={taskMode === "design" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setTaskMode("design")}
+                  >
+                    Design
+                  </Button>
+                  <Button
+                    variant={taskMode === "develop" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setTaskMode("develop")}
+                  >
+                    Develop
+                  </Button>
+                </div>
                 <RepositorySelect />
                 <TerminalInput
                   placeholder="Describe your coding task or ask a question..."
@@ -236,6 +256,7 @@ export function DefaultView({ threads, threadsLoading }: DefaultViewProps) {
                   setAutoAcceptPlan={setAutoAccept}
                   customFramework={customFramework}
                   setCustomFramework={setCustomFramework}
+                  mode={taskMode}
                 />
                 <div className="flex items-center gap-2">
                   <TooltipIconButton

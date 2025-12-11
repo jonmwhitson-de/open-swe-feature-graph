@@ -47,6 +47,7 @@ interface TerminalInputProps {
   draftToLoad?: string;
   customFramework: boolean;
   setCustomFramework: Dispatch<SetStateAction<boolean>>;
+  mode?: "develop" | "design";
 }
 
 const MISSING_API_KEYS_TOAST_CONTENT = (
@@ -82,6 +83,7 @@ export function TerminalInput({
   draftToLoad,
   customFramework,
   setCustomFramework,
+  mode: _mode = "develop",
 }: TerminalInputProps) {
   const { push } = useRouter();
   const { message, setMessage, clearCurrentDraft } = useDraftStorage();
