@@ -11,16 +11,12 @@ function ChatPageComponent() {
     assistantId: MANAGER_GRAPH_ID,
   });
 
-  if (!threads) {
-    return <div>No threads</div>;
-  }
-
   return (
     <div className="bg-background h-screen">
       <Suspense>
         <Toaster />
         <DefaultView
-          threads={threads}
+          threads={threads ?? []}
           threadsLoading={threadsLoading}
         />
       </Suspense>
